@@ -37,7 +37,10 @@ def destroyFrm(num, decision):
         parity = decision
         view_four()
     elif num == 5:
-        print(decision)
+        if code:
+            CodeHamming(decision, parity)
+        else:
+            DecodeHamming(decision, parity)
 
 
 def view_one():

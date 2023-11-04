@@ -79,8 +79,7 @@ def DecodeHamming(code, parityPar: bool):
         print('Codigo del Mensaje: ', codeMessage)
 
 
-def CodeHamming(parityPar: bool):
-    code = '1100011'
+def CodeHamming(code, parityPar: bool):
     codeHamming = ''
     listCode = list(code)
     listHamming: list[Hamming] = []
