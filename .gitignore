@@ -7,7 +7,7 @@
 *.obj
 *.elf
 *.spec
-
+*.pyc
 # Linker output
 *.ilk
 *.map
@@ -52,3 +52,5 @@ Module.symvers
 Mkfile.old
 dkms.conf
 build
+modules/__pycache__
+services/__pycache__
