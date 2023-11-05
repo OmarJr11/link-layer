@@ -1,16 +1,22 @@
+BAND = '01111110'
+
+
 def removeFillerBits(code):
-    bits1 = 0
-    newCode = ''
-    for bit in code:
-        if bit == '1' and bits1 < 5:
-            newCode = (newCode, newCode + bit)[bits1 < 5]
-            bits1 = (0, bits1 + 1)[bits1 < 5]
-        elif bits1 == 5:
-            bits1 = 0
-        else:
-            bits1 = 0
-            newCode = newCode + bit
-    return newCode
+    if not code:
+        return False
+    else:
+        bits1 = 0
+        newCode = ''
+        for bit in code:
+            if bit == '1' and bits1 < 5:
+                newCode = (newCode, newCode + bit)[bits1 < 5]
+                bits1 = (0, bits1 + 1)[bits1 < 5]
+            elif bits1 == 5:
+                bits1 = 0
+            else:
+                bits1 = 0
+                newCode = newCode + bit
+        return newCode
 
 
 def addFillerBits(code):
@@ -27,8 +33,14 @@ def addFillerBits(code):
 
 
 def removeBandBits(code):
-    return code[8:len(code)-8]
+    length = len(code)
+    global BAND
+    if BAND == code[0:8] and BAND == code[length-8:length]:
+        return (True, code[8:len(code)-8])
+    else:
+        return (False, 'Codigo invalido, no contiene los bits de bandera')
 
 
 def addBandBits(code):
-    return '01111110' + code + '01111110'
+    global BAND
+    return BAND + code + BAND
