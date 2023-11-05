@@ -27,7 +27,16 @@ def addFillerBits(code):
 
 
 def removeBandBits(code):
-    return code[8:len(code)-8]
+    bandPos = code.find('01111110')
+    if (bandPos != -1) and (bandPos == 0):
+        code = code[8:len(code)]
+
+    bandPos = code.find('01111110')
+    if (bandPos != -1):
+        code = code[0: bandPos]
+
+    print(code)
+    return code
 
 
 def addBandBits(code):
