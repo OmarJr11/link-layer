@@ -1,4 +1,5 @@
 from modules.module import Hamming, removeFillerBits, addFillerBits, removeBandBits, addBandBits
+RESPONSE = True
 
 
 def calculateBitVerification(position: int, parityPar: bool, listHamming: list[Hamming]):
@@ -37,8 +38,10 @@ def CheckBitVerification(position: int, parityPar: bool, listHamming: list[Hammi
 
 
 def DecodeHamming(code, parityPar: bool):
-    print('\nCodigo recibido:', code)
-    code = removeFillerBits(removeBandBits(code))
+    bandBits = removeBandBits(code)
+    if not bandBits[0]:
+        return bandBits
+    code = removeFillerBits(bandBits[1])
     codeHamming = ''
     codeMessage = ''
     listCode = list(code)
@@ -60,23 +63,14 @@ def DecodeHamming(code, parityPar: bool):
             errorPosition = errorPosition + CheckBitVerification(
                 item.position, parityPar, listHamming)
     if errorPosition > 0:
-        print('Posicion del error:', errorPosition)
         listHamming[errorPosition-1].bit = (
             '1', '0')[listHamming[errorPosition-1].bit == '1']
-    else:
-        print('No hay error')
     for item in listHamming:
         codeHamming = codeHamming + item.bit
     for item in listHamming:
         if not item.isVerification:
             codeMessage = codeMessage + item.bit
-    if errorPosition > 0:
-        print('Codigo Hamming que llego: ', code)
-        print('Codigo Hamming Despues de la Correccion: ', codeHamming)
-        print('Codigo del Mensaje: ', codeMessage)
-    else:
-        print('Codigo Hamming: ', codeHamming)
-        print('Codigo del Mensaje: ', codeMessage)
+    return (RESPONSE, errorPosition, codeHamming, codeMessage)
 
 
 def CodeHamming(code, parityPar: bool):
@@ -102,10 +96,6 @@ def CodeHamming(code, parityPar: bool):
             codeHamming = codeHamming + item.bit
         else:
             codeHamming = codeHamming + item.bit
-
-    print('Codigo Ingresado: ', code)
-    print('Codigo Hamming: ', codeHamming)
-    codeHamming = addFillerBits(codeHamming)
-    print('Codigo Hamming con bits de relleno: ', codeHamming)
-    codeHamming = addBandBits(codeHamming)
-    print('Codigo Hamming con banderas: ', codeHamming)
+    global RESPONSE
+    fillerBits = addFillerBits(codeHamming)
+    return (RESPONSE, codeHamming, fillerBits, addBandBits(fillerBits))
