@@ -6,48 +6,51 @@ window = Tk()
 window.title('Capa de enlace')
 window.geometry('800x600')
 window.columnconfigure(0, weight=1)
-frm = Frame(window, padx=10, pady=10, background='blue')
+frm = Frame(window, padx=20, pady=20, background='#353b48',)
 frm.columnconfigure(0, weight=1)
 frm.rowconfigure(0, weight=1)
+
 frm.grid(sticky="nsew")
-frm1 = Frame(frm)
-frm1.columnconfigure(0, weight=1)
-frm1.columnconfigure(1, weight=1)
-frm1.rowconfigure(0, weight=1)
-frm1.grid(sticky="nsew")
-frm2 = Frame(frm, padx=10, pady=10)
-frm2.grid()
-frm3 = Frame(frm, padx=10, pady=10)
-frm3.grid()
-frm4 = Frame(frm, padx=10, pady=10)
-frm4.grid()
-frm5 = Frame(frm, padx=10, pady=10)
-frm5.grid()
+frm.pack(fill='both', expand=True, side='top')
+
+frm1: Frame
+frm2: Frame
+frm3: Frame
+frm4: Frame
+frm5: Frame
+
 mode: bool
 hamming: bool
 parity: bool
-reopen: bool = False
 code: str
 generator: str
 
+styles = ttk.Style()
+styles.configure(
+    "MyButton.TButton",
+    foreground="#353b48",
+    padding=10,
+    font=('', 14),
+    cursor='pointer'
+)
+
 
 def destroyFrm(num, data):
-    global reopen
     if num == 1:
         frm1.destroy()
         global mode
         mode = data
-        view_two(reopen)
+        view_two()
     elif num == 2:
         frm2.destroy()
         global code
         code = data
-        view_three(reopen)
+        view_three()
     elif num == 3:
         frm3.destroy()
         global hamming
         hamming = data
-        view_four(reopen)
+        view_four()
     elif num == 4:
         frm4.destroy()
         global parity
@@ -61,157 +64,206 @@ def destroyFrm(num, data):
             result: tuple = DecodeHamming(code, parity)
             if result[0]:
                 hamming_result_view(result, False)
+            else:
+                invalidBands(result)
     elif num == 5:
         frm4.destroy()
         global generator
         generator = data
 
         if mode:
-            result: tuple = CodeCRC(code, generator, hamming)
+            result: tuple = CodeCRC(code, generator)
             if result[0]:
                 hamming_result_view(result, True)
         else:
-            result: tuple = DecodeCRC(code, generator, hamming)
+            result: tuple = DecodeCRC(code, generator)
             if result[0]:
                 hamming_result_view(result, False)
+            else:
+                invalidBands(result)
     else:
         frm5.destroy()
-        reopen = True
-        view_one(reopen)
+        view_one()
 
 
-def view_one(reopen: bool):
+def view_one():
     global frm1
-    if reopen:
-        frm1 = Frame(frm, padx=10, pady=10)
-        frm1.grid()
-    ttk.Label(frm1, text="Quieres codificar o decodificar:").grid(
-        column=0, columnspan=2, row=0)
+
+    frm1 = Frame(frm, padx=10, pady=10, )
+    frm1.columnconfigure(0, weight=1)
+    frm1.columnconfigure(1, weight=1)
+    frm1.rowconfigure(0, weight=1)
+    frm1.rowconfigure(1, weight=1)
+    frm1.grid(sticky="nsew")
+
+    ttk.Label(frm1, text="Desea codificar o decodificar una trama:", font=('', 18)).grid(
+        column=0, columnspan=2, row=0,)
+
     ttk.Button(frm1, text="Codificar",
-               command=lambda: destroyFrm(1, True)).grid(column=0, row=1)
+               command=lambda: destroyFrm(1, True), style="MyButton.TButton").grid(column=0, row=1,)
     ttk.Button(frm1, text="Decodificar",
-               command=lambda: destroyFrm(1, False)).grid(column=1, row=1)
+               command=lambda: destroyFrm(1, False), style="MyButton.TButton").grid(column=1, row=1, )
 
 
-def view_two(reopen: bool):
+def view_two():
     global frm2
-    if reopen:
-        frm2 = Frame(frm, padx=10, pady=10)
-        frm2.grid()
-    ttk.Label(frm2, text="Ingrese su codigo:").grid(column=0, row=1)
-    entry = ttk.Entry(frm2)
+
+    frm2 = Frame(frm, padx=10, pady=10)
+    frm2.columnconfigure(0, weight=1)
+    frm2.columnconfigure(1, weight=1)
+    frm2.rowconfigure(0, weight=1)
+    frm2.rowconfigure(1, weight=1)
+    frm2.grid(sticky="nsew")
+
+    ttk.Label(frm2, text="Ingrese el codigo:", font=('', 18)).grid(
+        column=0, columnspan=2, row=0)
+    entry = ttk.Entry(frm2, width=40, font=('', 14),)
     entry.grid(
-        column=1, row=2)
-    ttk.Button(frm2, text="Enter",
-               command=lambda: destroyFrm(2, entry.get())).grid(column=2, row=2)
+        column=0, row=1, ipadx=5, ipady=5)
+    ttk.Button(frm2, text="Enter", style="MyButton.TButton",
+               command=lambda: destroyFrm(2, entry.get())).grid(column=1, row=1)
 
 
-def view_three(reopen: bool):
+def view_three():
     global frm3
-    if reopen:
-        frm3 = Frame(frm, padx=10, pady=10)
-        frm3.grid()
-    ttk.Label(frm3, text="Metodo:").grid(column=0, row=1)
-    ttk.Button(frm3, text="Hamming", command=lambda: destroyFrm(3, True)).grid(
-        column=1, row=1)
-    ttk.Button(frm3, text="CRC",
-               command=lambda: destroyFrm(3, False)).grid(column=2, row=1)
+
+    frm3 = Frame(frm, padx=10, pady=10)
+    frm3.columnconfigure(0, weight=1)
+    frm3.columnconfigure(1, weight=1)
+    frm3.rowconfigure(0, weight=1)
+    frm3.rowconfigure(1, weight=1)
+    frm3.grid(sticky="nsew")
+
+    ttk.Label(frm3, text="Metodo a utilizar:", font=('', 18)).grid(
+        column=0, columnspan=2, row=0)
+    ttk.Button(frm3, text="Hamming", style="MyButton.TButton", command=lambda: destroyFrm(3, True)).grid(
+        column=0, row=1)
+    ttk.Button(frm3, text="CRC", style="MyButton.TButton",
+               command=lambda: destroyFrm(3, False)).grid(column=1, row=1)
 
 
-def view_four(reopen: bool):
+def view_four():
     global frm4
     global hamming
-    if reopen:
-        frm4 = Frame(frm, padx=10, pady=10)
-        frm4.grid()
+
+    frm4 = Frame(frm, padx=10, pady=10)
+    frm4.columnconfigure(0, weight=1)
+    frm4.columnconfigure(1, weight=1)
+    frm4.rowconfigure(0, weight=1)
+    frm4.rowconfigure(1, weight=1)
+    frm4.grid(sticky="nsew")
 
     if hamming:
-        ttk.Label(frm4, text="Paridad:").grid(column=0, row=1)
-        ttk.Button(frm4, text="Par", command=lambda: destroyFrm(4, True)).grid(
-            column=1, row=1)
-        ttk.Button(frm4, text="Impar",
-                   command=lambda: destroyFrm(4, False)).grid(column=2, row=1)
-    else:
-        ttk.Label(frm4, text="Ingrese el polinomio generador(en bits):").grid(
+        ttk.Label(frm4, text="Paridad a utilizar:", font=('', 18)).grid(
+            column=0, columnspan=2, row=0)
+        ttk.Button(frm4, text="Par", style="MyButton.TButton", command=lambda: destroyFrm(4, True)).grid(
             column=0, row=1)
-        entry = ttk.Entry(frm4)
+        ttk.Button(frm4, text="Impar", style="MyButton.TButton",
+                   command=lambda: destroyFrm(4, False)).grid(column=1, row=1)
+    else:
+        ttk.Label(frm4, text="Ingrese el polinomio generador (en bits, maximo 5 bits):", font=('', 18)).grid(
+            column=0, columnspan=2, row=0)
+        entry = ttk.Entry(frm4, width=40, font=('', 14),)
         entry.grid(
-            column=1, row=2)
-        ttk.Button(frm4, text="Enter",
-                   command=lambda: destroyFrm(4, entry.get())).grid(column=2, row=2)
+            column=0, row=1, ipadx=5, ipady=5)
+        ttk.Button(frm4, text="Enter", style="MyButton.TButton",
+                   command=lambda: destroyFrm(4, entry.get())).grid(column=1, row=1)
 
 
 def hamming_result_view(result: tuple, isCode: bool):
     global frm5
-    if reopen:
-        frm5 = Frame(frm, padx=10, pady=10)
-        frm5.grid()
+
+    frm5 = Frame(frm, padx=10, pady=10)
+    frm5.columnconfigure(0, weight=1)
+    frm5.columnconfigure(1, weight=1)
+    frm5.rowconfigure(0, weight=1)
+    frm5.rowconfigure(1, weight=1)
+    frm5.rowconfigure(2, weight=1)
+
+    frm5.grid(sticky="nsew")
+
     if result[0]:
         if isCode:
             if hamming:
-                ttk.Label(frm5, text="Codigo Hamming: ").grid(
+                ttk.Label(frm5, text="Codigo Hamming: ", font=('', 18)).grid(
                     column=0, row=0)
-                ttk.Label(frm5, text=result[1]).grid(
+                ttk.Label(frm5, text=result[1], font=('', 18)).grid(
                     column=1, row=0)
-                ttk.Label(frm5, text="Codigo Hamming con relleno de bit: ").grid(
+                ttk.Label(frm5, text="Codigo Hamming con relleno de bit: ", font=('', 18)).grid(
                     column=0, row=1)
-                ttk.Label(frm5, text=result[2]).grid(
+                ttk.Label(frm5, text=result[2], font=('', 18)).grid(
                     column=1, row=1)
-                ttk.Label(frm5, text="Codigo Hamming con bits bandera: ").grid(
+                ttk.Label(frm5, text="Codigo Hamming con bits bandera: ", font=('', 18)).grid(
                     column=0, row=2)
-                ttk.Label(frm5, text=result[3]).grid(
+                ttk.Label(frm5, text=result[3], font=('', 18)).grid(
                     column=1, row=2)
             else:
-                ttk.Label(frm5, text="Codigo CRC: ").grid(
+                ttk.Label(frm5, text="Codigo CRC: ", font=('', 18)).grid(
                     column=0, row=0)
-                ttk.Label(frm5, text=result[1]).grid(
+                ttk.Label(frm5, text=result[1], font=('', 18)).grid(
                     column=1, row=0)
-                ttk.Label(frm5, text="Codigo CRC con relleno de bit: ").grid(
+                ttk.Label(frm5, text="Codigo CRC con relleno de bit: ", font=('', 18)).grid(
                     column=0, row=1)
-                ttk.Label(frm5, text=result[2]).grid(
+                ttk.Label(frm5, text=result[2], font=('', 18)).grid(
                     column=1, row=1)
-                ttk.Label(frm5, text="Codigo CRC con bits bandera: ").grid(
+                ttk.Label(frm5, text="Codigo CRC con bits bandera: ", font=('', 18)).grid(
                     column=0, row=2)
-                ttk.Label(frm5, text=result[3]).grid(
+                ttk.Label(frm5, text=result[3], font=('', 18)).grid(
                     column=1, row=2)
         else:
             if hamming:
                 if result[1] > 0:
-                    ttk.Label(frm5, text="Error en la posicion: ").grid(
+                    ttk.Label(frm5, text="Error en la posicion: ", font=('', 18)).grid(
                         column=0, row=0)
-                    ttk.Label(frm5, text=result[1]).grid(
+                    ttk.Label(frm5, text=result[1], font=('', 18)).grid(
                         column=1, row=0)
                 else:
-                    ttk.Label(frm5, text="No hay error").grid(
+                    ttk.Label(frm5, text="No hay error", font=('', 18)).grid(
                         column=0, row=0)
-                ttk.Label(frm5, text="Codigo Hamming: ").grid(
+                ttk.Label(frm5, text="Codigo Hamming: ", font=('', 18)).grid(
                     column=0, row=1)
-                ttk.Label(frm5, text=result[2]).grid(
+                ttk.Label(frm5, text=result[2], font=('', 18)).grid(
                     column=1, row=1)
-                ttk.Label(frm5, text="Codigo Hamming decodificado: ").grid(
+                ttk.Label(frm5, text="Codigo Hamming decodificado: ", font=('', 18)).grid(
                     column=0, row=2)
-                ttk.Label(frm5, text=result[3]).grid(
+                ttk.Label(frm5, text=result[3], font=('', 18)).grid(
                     column=1, row=2)
             else:
                 if result[1]:
-                    ttk.Label(frm5, text="Hubo un error en la transmicion ").grid(
+                    ttk.Label(frm5, text="Hubo un error en la transmicion ", font=('', 18)).grid(
                         column=0, row=0)
                 else:
-                    ttk.Label(frm5, text="No hay error").grid(
+                    ttk.Label(frm5, text="No hay error", font=('', 18)).grid(
                         column=0, row=0)
-                ttk.Label(frm5, text="Codigo CRC: ").grid(
+                ttk.Label(frm5, text="Codigo CRC: ", font=('', 18)).grid(
                     column=0, row=1)
-                ttk.Label(frm5, text=result[2]).grid(
+                ttk.Label(frm5, text=result[2], font=('', 18)).grid(
                     column=1, row=1)
-        print(result)
     else:
-        ttk.Label(frm5, text=result[1]).grid(
+        ttk.Label(frm5, text=result[1], font=('', 18)).grid(
             column=0, row=0)
-    ttk.Button(frm5, text="Regresar",
+    ttk.Button(frm5, text="Regresar", style="MyButton.TButton",
                command=lambda: destroyFrm(0, False)).grid(column=1, row=3)
 
 
-view_one(reopen)
+def invalidBands(result: tuple):
+    global frm5
+
+    frm5 = Frame(frm, padx=10, pady=10)
+    frm5.columnconfigure(0, weight=1)
+    frm5.columnconfigure(1, weight=1)
+    frm5.rowconfigure(0, weight=1)
+    frm5.rowconfigure(1, weight=1)
+
+    frm5.grid(sticky="nsew")
+
+    ttk.Label(frm5, text=result[1]).grid(
+        column=0, columnspan=2, row=0)
+    ttk.Button(frm5, text="Regresar",
+               command=lambda: destroyFrm(0, False)).grid(column=0, columnspan=2, row=1)
+
+
+view_one()
 window.mainloop()
 
 # window.configure(background="")

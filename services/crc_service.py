@@ -33,7 +33,10 @@ def CodeCRC(frame, generator):
 
 
 def DecodeCRC(frame, generator):
-    frame = removeFillerBits(removeBandBits(frame))
+    bandBits = removeBandBits(frame)
+    if not bandBits[0]:
+        return bandBits
+    frame = removeFillerBits(bandBits[1])
     code = list(frame)
 
     print(f'trama: {code}')
