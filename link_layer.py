@@ -5,10 +5,16 @@ from tkinter import ttk
 window = Tk()
 window.title('Capa de enlace')
 window.geometry('800x600')
-frm = Frame(window, padx=10, pady=10)
-frm.grid()
-frm1 = Frame(frm, padx=10, pady=10)
-frm1.grid()
+window.columnconfigure(0, weight=1)
+frm = Frame(window, padx=10, pady=10, background='blue')
+frm.columnconfigure(0, weight=1)
+frm.rowconfigure(0, weight=1)
+frm.grid(sticky="nsew")
+frm1 = Frame(frm)
+frm1.columnconfigure(0, weight=1)
+frm1.columnconfigure(1, weight=1)
+frm1.rowconfigure(0, weight=1)
+frm1.grid(sticky="nsew")
 frm2 = Frame(frm, padx=10, pady=10)
 frm2.grid()
 frm3 = Frame(frm, padx=10, pady=10)
@@ -80,11 +86,11 @@ def view_one(reopen: bool):
         frm1 = Frame(frm, padx=10, pady=10)
         frm1.grid()
     ttk.Label(frm1, text="Quieres codificar o decodificar:").grid(
-        column=0, row=0)
+        column=0, columnspan=2, row=0)
     ttk.Button(frm1, text="Codificar",
-               command=lambda: destroyFrm(1, True)).grid(column=1, row=0)
+               command=lambda: destroyFrm(1, True)).grid(column=0, row=1)
     ttk.Button(frm1, text="Decodificar",
-               command=lambda: destroyFrm(1, False)).grid(column=2, row=0)
+               command=lambda: destroyFrm(1, False)).grid(column=1, row=1)
 
 
 def view_two(reopen: bool):
