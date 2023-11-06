@@ -1,3 +1,5 @@
+import re
+
 BAND = '01111110'
 
 
@@ -44,3 +46,11 @@ def removeBandBits(code):
 def addBandBits(code):
     global BAND
     return BAND + code + BAND
+
+
+"""Verifica si una cadena solo contiene los caracteres '0' y '1'"""
+
+
+def es_binario(cadena):
+    patron = re.compile(r"^[01]+$")
+    return patron.fullmatch(cadena) is not None
