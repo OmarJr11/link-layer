@@ -99,7 +99,6 @@ def DecodeHamming(code, parityPar: bool):
     errorPosition: int = 0
     for item in listHamming:  # Se recorre la lista hamming creada anteriormente
         if item.isVerification:  # Verifica que el bit sea de verificacion
-
             # Se comprueba si hay error con ese bit de verificacion
             # Si hay error se va sumando para obtener la posicion del error
             errorPosition = errorPosition + CheckBitVerification(
@@ -138,8 +137,8 @@ def CodeHamming(code, parityPar: bool):
     listHamming: list[Hamming] = []
     listPow = []  # Lista para la posiciones que sean igual potencias 2**n
     exp = 0  # Primer exponente
-
-    for i in range(24):  # Se recorre el codigo ingresado
+    i = 0  # Iterador
+    while len(listCode) > 0:  # Se recorre el codigo ingresado
 
         if len(listCode) > 0:  # Si la lista todavia contiene bits
             resultPot = pow(2, exp)  # Se calcula la potencia 2**exp
@@ -161,7 +160,7 @@ def CodeHamming(code, parityPar: bool):
                 # Hamming( Es bit de verificacion?, Posicion, Bit, Lista de potencia hasta esa posicion )
                 # y se inserta a la lista
                 listHamming.insert(i, Hamming(False, i+1, bit, listPow))
-
+        i += 1
     for item in listHamming:  # Se recorre la lista hamming creada anteriormente
         if item.isVerification:  # Verifica que el bit sea de verificacion
             # Se calcula el valor del bit de verificacion
