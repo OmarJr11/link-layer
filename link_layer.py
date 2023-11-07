@@ -276,7 +276,7 @@ def hamming_result_view(result: tuple, isCode: bool):
                         column=0, row=4)
     else:
         ttk.Label(frm5, text=result[1], font=('', 18)).grid(
-            column=0, row=0)
+            column=0, row=1)
     ttk.Button(frm5, text="Regresar", style="MyButton.TButton",
                command=lambda: destroyFrm(0, False)).grid(column=0, row=6)
 
