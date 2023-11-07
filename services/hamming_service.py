@@ -104,11 +104,14 @@ def DecodeHamming(code, parityPar: bool):
             # Si hay error se va sumando para obtener la posicion del error
             errorPosition = errorPosition + CheckBitVerification(
                 item.position, parityPar, listHamming)
-
-    if errorPosition > 0:  # Si es mayor a 0 es porque hay al menos un error
+    print(errorPosition, len(listHamming))
+    # Si es mayor a 0 es porque hay al menos un error
+    if errorPosition > 0 and errorPosition < len(listHamming):
         # Se cambia el bit donde ocurrio el error 0 --> 1 o 1 --> 0
         listHamming[errorPosition-1].bit = (
             '1', '0')[listHamming[errorPosition-1].bit == '1']
+    else:
+        return (False, 'No se ha podido corregir el error, hay mas de un error en la trama')
 
     # Se crea la cadena del codigo hamming sin error
     for item in listHamming:
@@ -120,6 +123,13 @@ def DecodeHamming(code, parityPar: bool):
             codeMessage = codeMessage + item.bit
 
     return (RESPONSE, errorPosition, codeHamming, codeMessage)
+
+
+"""
+    Codificar codigo hamming
+    code = cadena binaria ingresada
+    parityPar = Booleano que indica si se esta usando paridad par
+"""
 
 
 def CodeHamming(code, parityPar: bool):

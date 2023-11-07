@@ -317,5 +317,3 @@ def invalidBands(result: tuple):
 
 view_one()
 window.mainloop()
-
-# window.configure(background="")
