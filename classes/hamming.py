@@ -5,7 +5,7 @@
         position =  Entero que indica la posicion del bit
         bit =  0 o 1
         pow =  Array de Enteros que indica la descomposicion de la posicion del bit en 2**n
-               Es decir la posicion 5 = [4(2**2), 1(2**1)]
+               Es decir la posicion 5 = [4(2**2), 1(2**0)]
     Para crear pow de la posicion se envia una lista listPow que contiene los numeros de 2**n
     donde n es el ultimo bit de verificacion hasta el bit en el que se este trabajando
 """
