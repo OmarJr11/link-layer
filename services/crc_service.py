@@ -12,8 +12,6 @@ def CodeCRC(frame, generator):
     for _ in range(polynomialGrade):
         code.append('0')
 
-    print(f'trama: {code}')
-
     divFragmentFrame = binaryDiv(code, generator)
 
     actIndex = len(code) - 1
@@ -23,12 +21,10 @@ def CodeCRC(frame, generator):
         actIndex -= 1
         index -= 1
 
-    print(code)
     crc = code
     codeWithBits = addFillerBits(code)
-    print(codeWithBits)
     code = addBandBits(codeWithBits)
-    print(code)
+
     return (RESPONSE, crc, codeWithBits, code)
 
 
@@ -39,15 +35,16 @@ def DecodeCRC(frame, generator):
     frame = removeFillerBits(bandBits[1])
     code = list(frame)
 
-    print(f'trama: {code}')
-
     divFragmentFrame = binaryDiv(code, generator)
 
-    print(divFragmentFrame)
+    lengthToCut = len(generator) - 1
+
+    originalCode = code[0:len(code)-lengthToCut]
+
     if ''.join(divFragmentFrame).find('1') != -1:
-        return (RESPONSE, True, code)
+        return (RESPONSE, True, code, originalCode)
     else:
-        return (RESPONSE, False, code)
+        return (RESPONSE, False, code, originalCode)
 
 
 def binaryDiv(code, generator):
@@ -62,8 +59,6 @@ def binaryDiv(code, generator):
         divFragmentFrame.append(code[i])
         aux.append('0')
 
-    print(f'frame: {divFragmentFrame}')
-
     while actIndex <= len(code):
         if divFragmentFrame[0] == '1':
             frameDiv = list(generator)
@@ -71,17 +66,17 @@ def binaryDiv(code, generator):
         else:
             frameDiv = aux
             quotient.append('0')
-        print(f'divii: {frameDiv}')
+
         for i in range(generatorLen):
             if divFragmentFrame[i] == frameDiv[i]:
                 divFragmentFrame[i] = '0'
             else:
                 divFragmentFrame[i] = '1'
-        print(f'fram1: {divFragmentFrame}')
+
         divFragmentFrame.pop(0)
+
         if actIndex < len(code):
             divFragmentFrame.append(code[actIndex])
         actIndex += 1
-        print(f'fram2: {divFragmentFrame}')
 
     return divFragmentFrame
