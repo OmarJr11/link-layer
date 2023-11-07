@@ -136,8 +136,6 @@ def view_two(error):
     frm2.columnconfigure(1, weight=1)
     frm2.rowconfigure(0, weight=1)
     frm2.rowconfigure(1, weight=1)
-    if not mode:
-        frm2.rowconfigure(2, weight=1)
 
     frm2.grid(sticky="nsew")
 
@@ -159,7 +157,7 @@ def view_two(error):
                    command=lambda: entry.insert(0, sentFrame)).grid(column=1, row=2)
     else:
         ttk.Button(frm2, text="Regresar", style="MyButton.TButton",
-                   command=lambda: resetFrm(2)).grid(column=0, row=3, columnspan=2)
+                   command=lambda: resetFrm(2)).grid(column=0, row=2, columnspan=2)
 
 
 def view_three():
@@ -179,7 +177,7 @@ def view_three():
     ttk.Button(frm3, text="CRC", style="MyButton.TButton",
                command=lambda: destroyFrm(3, False)).grid(column=1, row=1)
     ttk.Button(frm3, text="Regresar", style="MyButton.TButton",
-               command=lambda: resetFrm(3)).grid(column=0, row=3, columnspan=2)
+               command=lambda: resetFrm(3)).grid(column=0, row=2, columnspan=2)
 
 
 def view_four(error):
@@ -191,7 +189,6 @@ def view_four(error):
     frm4.columnconfigure(1, weight=1)
     frm4.rowconfigure(0, weight=1)
     frm4.rowconfigure(1, weight=1)
-    frm4.rowconfigure(0, weight=1)
     frm4.grid(sticky="nsew")
 
     if hamming:
@@ -214,7 +211,7 @@ def view_four(error):
         ttk.Button(frm4, text="Enter", style="MyButton.TButton",
                    command=lambda: destroyFrm(5, entry.get())).grid(column=1, row=1)
     ttk.Button(frm4, text="Regresar", style="MyButton.TButton",
-               command=lambda: resetFrm(4)).grid(column=0, row=3, columnspan=2)
+               command=lambda: resetFrm(4)).grid(column=0, row=2, columnspan=2)
 
 
 def hamming_result_view(result: tuple, isCode: bool):
