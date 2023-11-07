@@ -96,6 +96,19 @@ def destroyFrm(num, data):
         view_one()
 
 
+def resetFrm(num):
+    if num == 2:
+        frm2.destroy()
+    elif num == 3:
+        frm2.destroy()
+        frm3.destroy()
+    elif num == 4:
+        frm2.destroy()
+        frm3.destroy()
+        frm4.destroy()
+    view_one()
+
+
 def view_one():
     global frm1
 
@@ -140,8 +153,13 @@ def view_two(error):
     ttk.Button(frm2, text="Enter", style="MyButton.TButton",
                command=lambda: destroyFrm(2, entry.get())).grid(column=1, row=1)
     if not mode:
+        ttk.Button(frm2, text="Regresar", style="MyButton.TButton",
+                   command=lambda: resetFrm(2)).grid(column=0, row=2)
         ttk.Button(frm2, text="Codigo Anterior", style="MyButton.TButton",
                    command=lambda: entry.insert(0, sentFrame)).grid(column=1, row=2)
+    else:
+        ttk.Button(frm2, text="Regresar", style="MyButton.TButton",
+                   command=lambda: resetFrm(2)).grid(column=0, row=3, columnspan=2)
 
 
 def view_three():
@@ -160,6 +178,8 @@ def view_three():
         column=0, row=1)
     ttk.Button(frm3, text="CRC", style="MyButton.TButton",
                command=lambda: destroyFrm(3, False)).grid(column=1, row=1)
+    ttk.Button(frm3, text="Regresar", style="MyButton.TButton",
+               command=lambda: resetFrm(3)).grid(column=0, row=3, columnspan=2)
 
 
 def view_four(error):
@@ -171,6 +191,7 @@ def view_four(error):
     frm4.columnconfigure(1, weight=1)
     frm4.rowconfigure(0, weight=1)
     frm4.rowconfigure(1, weight=1)
+    frm4.rowconfigure(0, weight=1)
     frm4.grid(sticky="nsew")
 
     if hamming:
@@ -192,6 +213,8 @@ def view_four(error):
             column=0, row=1, ipadx=5, ipady=5)
         ttk.Button(frm4, text="Enter", style="MyButton.TButton",
                    command=lambda: destroyFrm(5, entry.get())).grid(column=1, row=1)
+    ttk.Button(frm4, text="Regresar", style="MyButton.TButton",
+               command=lambda: resetFrm(4)).grid(column=0, row=3, columnspan=2)
 
 
 def hamming_result_view(result: tuple, isCode: bool):
@@ -274,9 +297,7 @@ def hamming_result_view(result: tuple, isCode: bool):
                         column=0, row=3)
                     ttk.Label(frm5, text=result[3], font=('', 18)).grid(
                         column=0, row=4)
-    else:
-        ttk.Label(frm5, text=result[1], font=('', 18)).grid(
-            column=0, row=1)
+
     ttk.Button(frm5, text="Regresar", style="MyButton.TButton",
                command=lambda: destroyFrm(0, False)).grid(column=0, row=6)
 
@@ -291,10 +312,9 @@ def invalidBands(result: tuple):
     frm5.rowconfigure(1, weight=1)
 
     frm5.grid(sticky="nsew")
-
-    ttk.Label(frm5, text=result[1]).grid(
+    ttk.Label(frm5, text=result[1], font=('', 18)).grid(
         column=0, columnspan=2, row=0)
-    ttk.Button(frm5, text="Regresar",
+    ttk.Button(frm5, text="Regresar", style="MyButton.TButton",
                command=lambda: destroyFrm(0, False)).grid(column=0, columnspan=2, row=1)
 
 
