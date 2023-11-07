@@ -40,7 +40,11 @@ styles.configure(
     cursor='pointer'
 )
 
-""" Funcion que pasa de una vista a otra y guarda la informacion suministrada """
+""" 
+    Funcion que pasa de una vista a otra y guarda la informacion suministrada
+    num = entero que indica que vista se mostrara
+    data = data necesaria para la siguiente vista
+"""
 
 
 def destroyFrm(num, data):
@@ -134,7 +138,9 @@ def destroyFrm(num, data):
         view_one()
 
 
-""" Funcion para reiniciar el proceso por si hubo alguna equivocacion """
+""" 
+    Funcion para reiniciar el proceso en caso de haber alguna equivocacion 
+"""
 
 
 def resetFrm(num):
@@ -152,7 +158,7 @@ def resetFrm(num):
 
 
 """ 
-Funcion que muestra la primera vista y guarda el modo si sera codificacion o decodificacion
+    Funcion que muestra la primera vista y guarda el modo si sera codificacion o decodificacion
 """
 
 
@@ -181,7 +187,7 @@ def view_one():
 
 
 """ 
-Funcion que muestra la segunda vista y guarda la cadena binaria a utilizar
+    Funcion que muestra la segunda vista y guarda la cadena binaria a utilizar
 """
 
 
@@ -232,7 +238,7 @@ def view_two(error):
 
 
 """ 
-Funcion que muestra la tercera vista y se pregunta el metodo a utilizar Hamming o CRC
+    Funcion que muestra la tercera vista y se pregunta el metodo a utilizar Hamming o CRC
 """
 
 
@@ -265,8 +271,8 @@ def view_three():
 
 
 """ 
-Funcion que muestra la cuarta vista y se pregunta la paridad a utilizar si es Hamming o
-polinomio generador si es CRC
+    Funcion que muestra la cuarta vista y se pregunta la paridad a utilizar si es Hamming o
+    polinomio generador si es CRC
 """
 
 
@@ -321,7 +327,9 @@ def view_four(error):
 
 
 """ 
-Funcion que muestra los resultados
+    Funcion que muestra los resultados
+    result = tupla con todos los datos a mostrar
+    isCode = Si es codificacion o no
 """
 
 
@@ -426,7 +434,8 @@ def hamming_result_view(result: tuple, isCode: bool):
 
 
 """ 
-Funcion que se muestra cuando ocurre un error en las banderas y no permite determinar la trama a decodificar 
+    Funcion que se muestra cuando ocurre un error en las banderas y no permite determinar la trama a decodificar 
+    result = tupla con todos los datos a mostrar
 """
 
 
