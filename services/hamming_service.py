@@ -103,7 +103,7 @@ def DecodeHamming(code, parityPar: bool):
             # Si hay error se va sumando para obtener la posicion del error
             errorPosition = errorPosition + CheckBitVerification(
                 item.position, parityPar, listHamming)
-    print(errorPosition, len(listHamming))
+
     # Si es mayor a 0 es porque hay al menos un error
     if errorPosition > 0 and errorPosition < len(listHamming):
         # Se cambia el bit donde ocurrio el error 0 --> 1 o 1 --> 0
