@@ -9,7 +9,7 @@ RESPONSE = True
 """
 
 
-def calculateBitVerification(position: int, parityPar: bool, listHamming: list[Hamming]):
+def calculateBitVerification(position: int, parityPar: bool, listHamming):
     listCode = []  # lista para calcular la paridad
     bit = '0'
     for item in listHamming:
@@ -36,7 +36,7 @@ def calculateBitVerification(position: int, parityPar: bool, listHamming: list[H
 """
 
 
-def CheckBitVerification(position: int, parityPar: bool, listHamming: list[Hamming]):
+def CheckBitVerification(position: int, parityPar: bool, listHamming):
     listCode = []  # lista para comprobar la paridad
     errorPosition = 0
     for item in listHamming:
