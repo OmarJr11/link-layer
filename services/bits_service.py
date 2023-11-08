@@ -63,17 +63,14 @@ def removeBandBits(code):
     # Si los primeros y los ultimos 8 bits es igual a la bandera
     if BAND == code[0:8] and BAND == code[length-8:length]:
         newCode = code[8:len(code)-8]  # Codigo sin bandera
-        return (
-            (False, 'Codigo invalido, el codigo sin las banderas contiene mas de 24 bits'),
-            (True, newCode)
-        )[len(newCode) <= 24]
+        return (True, newCode)
     else:
         # sino se retorna  un error
         return (False, 'Codigo invalido, no contiene los bits de bandera')
 
 
 """
-    Agrega los bits de bandera al inicio y al final de la bandera
+    Agregar los bits de bandera al inicio y al final de la bandera
     code = codigo binario con bits de relleno 
 """
 
