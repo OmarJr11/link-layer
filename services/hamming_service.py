@@ -109,7 +109,7 @@ def DecodeHamming(code, parityPar: bool):
         # Se cambia el bit donde ocurrio el error 0 --> 1 o 1 --> 0
         listHamming[errorPosition-1].bit = (
             '1', '0')[listHamming[errorPosition-1].bit == '1']
-    else:
+    elif errorPosition >= len(listHamming):
         return (False, 'No se ha podido corregir el error, hay mas de un error en la trama')
 
     # Se crea la cadena del codigo hamming sin error
