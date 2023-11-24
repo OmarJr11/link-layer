@@ -42,7 +42,7 @@ def addFillerBits(code):
     for bit in code:
         if bit == '1':
             # Si ya hay cinco bits 1 seguido, se reinicia el contador sino se auments en uno
-            bits1 = (bits1 + 1, 0)[bits1 == 5]
+            bits1 = (bits1 + 1, 1)[bits1 == 5]
             # si hay 5 bits 1 seguido se colocal el bit actual y se le agrega el relleno sino solo se copia el bit actual
             newCode = (newCode + bit, newCode + bit + '0')[bits1 == 5]
         else:
